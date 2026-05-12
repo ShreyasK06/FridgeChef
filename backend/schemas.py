@@ -1,7 +1,9 @@
 """Request and response schemas for FridgeChef routes and Gemini output."""
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, StringConstraints, field_validator
+
+StepStr = Annotated[str, StringConstraints(min_length=1, max_length=1000)]
 
 
 class IngredientsRequest(BaseModel):
@@ -24,17 +26,17 @@ class IngredientsResponse(BaseModel):
 
 
 class RecipeIngredient(BaseModel):
-    item: str
-    quantity: str
+    item: str = Field(min_length=1, max_length=100)
+    quantity: str = Field(min_length=1, max_length=100)
 
 
 class Recipe(BaseModel):
-    name: str
-    description: str
+    name: str = Field(min_length=1, max_length=200)
+    description: str = Field(min_length=1, max_length=2000)
     cook_time_minutes: int = Field(ge=1, le=480)
     difficulty: Literal["easy", "medium", "hard"]
     ingredients: list[RecipeIngredient] = Field(min_length=1)
-    steps: list[str] = Field(min_length=1)
+    steps: list[StepStr] = Field(min_length=1)
 
 
 class RecipesResponse(BaseModel):
