@@ -60,6 +60,18 @@ def generate_recipes(ingredients: list[str]) -> list[Recipe]:
     text = (response.text or "").strip()
     try:
         raw = json.loads(text)
-        return [Recipe.model_validate(item) for item in raw]
-    except (json.JSONDecodeError, ValidationError, TypeError) as exc:
+    except json.JSONDecodeError as exc:
+        raise ExternalAPIError("Recipe generation returned non-JSON output") from exc
+
+    if not isinstance(raw, list):
+        raise ExternalAPIError("Recipe generation returned non-array JSON")
+
+    try:
+        recipes = [Recipe.model_validate(item) for item in raw]
+    except (ValidationError, TypeError) as exc:
         raise ExternalAPIError("Recipe generation returned malformed data") from exc
+
+    if len(recipes) != 3:
+        raise ExternalAPIError(f"Expected 3 recipes, got {len(recipes)}")
+
+    return recipes
