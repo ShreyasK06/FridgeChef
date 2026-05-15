@@ -35,6 +35,15 @@ pytest
 
 17 tests covering the food-filter logic and both API routes (Vision and Gemini clients mocked).
 
+## Frontends
+
+Two are available; pick whichever fits.
+
+- **Web** (`frontend/`) — vanilla HTML/CSS/JS. Served automatically at `http://localhost:8000` by the backend. No build step.
+- **Android** (`flutter_app/`) — native Flutter app with camera + gallery picker. See [`flutter_app/README.md`](flutter_app/README.md) for Flutter SDK setup, emulator config, and how to run on a physical device.
+
+Both talk to the same `/api/detect` and `/api/recipes` endpoints.
+
 ## Architecture
 
 See [docs/superpowers/specs/2026-04-23-fridgechef-design.md](docs/superpowers/specs/2026-04-23-fridgechef-design.md) for the full design.
