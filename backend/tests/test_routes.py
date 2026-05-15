@@ -71,3 +71,64 @@ def test_detect_maps_vision_failure_to_502(monkeypatch, tiny_jpeg):
     )
     assert response.status_code == 502
     assert "Vision" in response.json()["detail"]
+
+
+# ---------- /api/recipes ----------
+
+from backend.schemas import Recipe, RecipeIngredient
+
+
+def _sample_recipe(name: str) -> Recipe:
+    return Recipe(
+        name=name,
+        description="Test recipe.",
+        cook_time_minutes=20,
+        difficulty="easy",
+        ingredients=[RecipeIngredient(item="salt", quantity="1 tsp")],
+        steps=["Cook it."],
+    )
+
+
+def test_recipes_happy_path(monkeypatch):
+    monkeypatch.setattr(
+        "backend.main.gemini_client.generate_recipes",
+        lambda _ings: [_sample_recipe("Dish 1"), _sample_recipe("Dish 2"), _sample_recipe("Dish 3")],
+    )
+    response = _client().post(
+        "/api/recipes",
+        json={"ingredients": ["milk", "bell pepper", "chicken breast"]},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body["recipes"]) == 3
+    assert body["recipes"][0]["name"] == "Dish 1"
+
+
+def test_recipes_rejects_empty_list():
+    response = _client().post("/api/recipes", json={"ingredients": []})
+    assert response.status_code == 422
+
+
+def test_recipes_rejects_too_many_items():
+    response = _client().post(
+        "/api/recipes", json={"ingredients": [f"item{i}" for i in range(31)]}
+    )
+    assert response.status_code == 422
+
+
+def test_recipes_rejects_overlong_item():
+    response = _client().post(
+        "/api/recipes", json={"ingredients": ["x" * 51]}
+    )
+    assert response.status_code == 422
+
+
+def test_recipes_maps_gemini_failure_to_502(monkeypatch):
+    def boom(_ings):
+        raise ExternalAPIError("Recipe generation failed")
+    monkeypatch.setattr("backend.main.gemini_client.generate_recipes", boom)
+    response = _client().post(
+        "/api/recipes", json={"ingredients": ["milk"]}
+    )
+    assert response.status_code == 502
+    assert "Recipe" in response.json()["detail"]
