@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FridgeChef</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>FridgeChef</h1>
+      <p class="tagline">Snap your fridge, cook something great.</p>
+    </header>
+
+    <main id="app">
+      <div id="error-bar" class="error-bar hidden" role="alert"></div>
+
+      <section id="state-upload" class="state">
+        <div id="drop-zone" class="drop-zone">
+          <p class="drop-zone-primary">Drop a photo of your fridge here</p>
+          <p class="drop-zone-secondary">or click to browse</p>
+          <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" hidden />
+        </div>
+        <div id="upload-preview" class="upload-preview hidden">
+          <img id="preview-img" alt="Selected fridge photo" />
+          <div class="upload-actions">
+            <button id="btn-clear" type="button">Choose different photo</button>
+            <button id="btn-analyze" type="button" class="primary">Analyze</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="state-ingredients" class="state hidden">
+        <div class="ingredients-layout">
+          <img id="ingredients-preview" alt="" />
+          <div class="ingredients-panel">
+            <h2>What's in your fridge?</h2>
+            <p class="muted">Remove anything wrong. Add anything missing.</p>
+            <div id="chip-list" class="chip-list"></div>
+            <form id="add-ingredient-form" class="add-row">
+              <input id="add-ingredient-input" type="text" placeholder="Add an ingredient…" maxlength="50" />
+              <button type="submit">Add</button>
+            </form>
+            <div class="ingredients-actions">
+              <button id="btn-restart" type="button">Start over</button>
+              <button id="btn-generate" type="button" class="primary">Generate Recipes</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="state-recipes" class="state hidden">
+        <div class="recipes-header">
+          <h2>Three ideas for you</h2>
+          <div class="recipes-actions">
+            <button id="btn-edit-ingredients" type="button">Edit ingredients</button>
+            <button id="btn-regenerate" type="button" class="primary">Generate again</button>
+          </div>
+        </div>
+        <div id="recipe-grid" class="recipe-grid"></div>
+      </section>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
