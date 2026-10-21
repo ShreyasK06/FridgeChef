@@ -3,64 +3,201 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FridgeChef</title>
+    <title>FridgeChef: cook from what's in your fridge</title>
+    <meta name="description" content="Take a photo of your fridge, check the ingredients it finds, and get three complete recipes." />
+    <meta name="theme-color" content="#9a3412" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%239a3412'/%3E%3Cpath d='M9 15.5a3.5 3.5 0 0 1 1.4-6.7 5 5 0 0 1 9.2 0A3.5 3.5 0 0 1 21 15.5V23H9Z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M9 19.5h12' stroke='white' stroke-width='2'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Varela+Round&display=swap"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
-      <h1>FridgeChef</h1>
-      <p class="tagline">Snap your fridge, cook something great.</p>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- Icon sprite: one stroke style (2px, round caps) used everywhere. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <symbol id="i-chef" viewBox="0 0 24 24"><path d="M6 13.87A4 4 0 0 1 7.5 6.1a5 5 0 0 1 9 0A4 4 0 0 1 18 13.87V21H6Z"/><path d="M6 17h12"/></symbol>
+        <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+        <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+        <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+        <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+        <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+        <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+        <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+        <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></symbol>
+        <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+        <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></symbol>
+      </defs>
+    </svg>
+
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="FridgeChef home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-chef" /></svg></span>
+        <span class="brand-name">FridgeChef</span>
+      </a>
+      <ol class="steps" aria-label="Progress">
+        <li data-step="upload" class="active" aria-current="step"><span class="num">1</span><span class="lbl">Photo</span></li>
+        <li data-step="ingredients"><span class="num">2</span><span class="lbl">Ingredients</span></li>
+        <li data-step="recipes"><span class="num">3</span><span class="lbl">Recipes</span></li>
+      </ol>
     </header>
 
-    <main id="app">
-      <div id="error-bar" class="error-bar hidden" role="alert"></div>
+    <main id="main">
+      <div id="error-bar" class="error-bar hidden" role="alert">
+        <span id="error-text"></span>
+        <button id="error-dismiss" class="link-btn" type="button">Dismiss</button>
+      </div>
 
-      <section id="state-upload" class="state">
-        <div id="drop-zone" class="drop-zone">
-          <p class="drop-zone-primary">Drop a photo of your fridge here</p>
-          <p class="drop-zone-secondary">or click to browse</p>
-          <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" hidden />
-        </div>
-        <div id="upload-preview" class="upload-preview hidden">
-          <img id="preview-img" alt="Selected fridge photo" />
-          <div class="upload-actions">
-            <button id="btn-clear" type="button">Choose different photo</button>
-            <button id="btn-analyze" type="button" class="primary">Analyze</button>
-          </div>
-        </div>
-      </section>
+      <!-- STEP 1: PHOTO -->
+      <section id="state-upload" class="state" aria-labelledby="h-upload">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Fridge to dinner in three steps</p>
+            <h1 id="h-upload" tabindex="-1">Snap your fridge.<br /><span>Cook something great.</span></h1>
+            <p class="lede">
+              Take a photo, check the ingredients it spots, and get three complete recipes built from what you already have.
+            </p>
 
-      <section id="state-ingredients" class="state hidden">
-        <div class="ingredients-layout">
-          <img id="ingredients-preview" alt="" />
-          <div class="ingredients-panel">
-            <h2>What's in your fridge?</h2>
-            <p class="muted">Remove anything wrong. Add anything missing.</p>
-            <div id="chip-list" class="chip-list"></div>
-            <form id="add-ingredient-form" class="add-row">
-              <input id="add-ingredient-input" type="text" placeholder="Add an ingredient…" maxlength="50" />
-              <button type="submit">Add</button>
-            </form>
-            <div class="ingredients-actions">
-              <button id="btn-restart" type="button">Start over</button>
-              <button id="btn-generate" type="button" class="primary">Generate Recipes</button>
+            <div id="drop-zone" class="drop-zone" role="button" tabindex="0"
+                 aria-label="Choose a photo of your fridge. You can also drop a photo here.">
+              <span class="drop-icon"><svg class="icon" aria-hidden="true"><use href="#i-image" /></svg></span>
+              <span class="drop-title">Drop a photo here</span>
+              <span class="drop-sub">or choose one from your device. JPEG, PNG or WebP, up to 10 MB.</span>
+              <span class="drop-actions">
+                <span class="btn primary" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-camera" /></svg>Choose photo</span>
+              </span>
+              <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" hidden />
             </div>
+            <button id="btn-sample" class="btn ghost sample hidden" type="button">
+              <svg class="icon" aria-hidden="true"><use href="#i-spark" /></svg>No photo handy? Try a sample fridge
+            </button>
+
+            <div id="upload-preview" class="preview hidden">
+              <div class="preview-frame">
+                <img id="preview-img" alt="Your fridge photo" />
+                <div id="scan" class="scan hidden" aria-hidden="true"></div>
+              </div>
+              <p id="upload-status" class="status" role="status"></p>
+              <div class="actions">
+                <button id="btn-clear" class="btn ghost" type="button">Choose a different photo</button>
+                <button id="btn-analyze" class="btn primary lg" type="button">
+                  <svg class="icon" aria-hidden="true"><use href="#i-spark" /></svg>Find ingredients
+                </button>
+              </div>
+            </div>
+
+            <ul class="tips">
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>Open the door fully and use good light</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>One or two shelves per photo works best</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>You can fix anything it misses in the next step</li>
+            </ul>
+          </div>
+
+          <!-- Decorative flat illustration; literal colours so it also works as the sample photo. -->
+          <svg id="hero-art" class="hero-art" viewBox="0 0 320 380" width="320" height="380" role="img" aria-label="Illustration of an open fridge with vegetables, eggs, milk and cheese">
+            <rect width="320" height="380" fill="#fff7ed"/>
+            <rect x="40" y="20" width="240" height="340" rx="22" fill="#f5f5f4" stroke="#d6d3d1" stroke-width="4"/>
+            <rect x="58" y="38" width="204" height="304" rx="12" fill="#ffffff" stroke="#e7e5e4" stroke-width="3"/>
+            <line x1="58" y1="130" x2="262" y2="130" stroke="#d6d3d1" stroke-width="4"/>
+            <line x1="58" y1="222" x2="262" y2="222" stroke="#d6d3d1" stroke-width="4"/>
+            <line x1="58" y1="300" x2="262" y2="300" stroke="#d6d3d1" stroke-width="4"/>
+            <circle cx="92" cy="104" r="22" fill="#dc2626"/><rect x="88" y="78" width="8" height="8" rx="2" fill="#15803d"/>
+            <circle cx="142" cy="108" r="19" fill="#16a34a"/><circle cx="142" cy="108" r="9" fill="#22c55e"/>
+            <ellipse cx="196" cy="108" rx="21" ry="15" fill="#facc15"/>
+            <polygon points="224,122 242,84 252,122" fill="#ea580c"/>
+            <rect x="72" y="150" width="34" height="72" rx="5" fill="#ffffff" stroke="#a8a29e" stroke-width="3"/><rect x="72" y="150" width="34" height="22" fill="#38bdf8"/>
+            <polygon points="124,222 124,184 176,204 176,222" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+            <circle cx="140" cy="206" r="3" fill="#d97706"/><circle cx="158" cy="214" r="3" fill="#d97706"/>
+            <rect x="192" y="168" width="56" height="54" rx="8" fill="#fed7aa" stroke="#ea580c" stroke-width="3"/><rect x="192" y="168" width="56" height="14" rx="6" fill="#ea580c"/>
+            <ellipse cx="86" cy="270" rx="15" ry="19" fill="#fef3c7" stroke="#d6d3d1" stroke-width="2"/>
+            <ellipse cx="120" cy="272" rx="15" ry="19" fill="#fef3c7" stroke="#d6d3d1" stroke-width="2"/>
+            <ellipse cx="154" cy="270" rx="15" ry="19" fill="#fef3c7" stroke="#d6d3d1" stroke-width="2"/>
+            <rect x="186" y="244" width="62" height="46" rx="8" fill="#fecaca" stroke="#dc2626" stroke-width="3"/>
+            <rect x="72" y="314" width="176" height="14" rx="7" fill="#e7e5e4"/>
+          </svg>
+        </div>
+
+        <section class="how" aria-labelledby="h-how">
+          <h2 id="h-how">How it works</h2>
+          <ol class="how-grid">
+            <li><span class="how-icon"><svg class="icon" aria-hidden="true"><use href="#i-camera" /></svg></span><h3>Snap</h3><p>Upload a photo of your open fridge or pantry shelf.</p></li>
+            <li><span class="how-icon"><svg class="icon" aria-hidden="true"><use href="#i-edit" /></svg></span><h3>Check</h3><p>Review what it found. Remove mistakes and add anything missing.</p></li>
+            <li><span class="how-icon"><svg class="icon" aria-hidden="true"><use href="#i-chef" /></svg></span><h3>Cook</h3><p>Get three recipes, see what you still need to buy, and tick off the steps.</p></li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- STEP 2: INGREDIENTS -->
+      <section id="state-ingredients" class="state hidden" aria-labelledby="h-ing">
+        <button id="btn-restart" class="back" type="button"><svg class="icon" aria-hidden="true"><use href="#i-back" /></svg>Start over</button>
+        <div class="ing-grid">
+          <figure class="photo-card"><img id="ingredients-preview" alt="Your fridge photo" /></figure>
+          <div class="panel">
+            <h2 id="h-ing" tabindex="-1">What's in your fridge?</h2>
+            <p class="muted">Tap the &times; on anything that's wrong, and add what we missed. More ingredients mean better recipes.</p>
+            <p class="count"><span id="ing-count">0</span> <span id="ing-count-label">ingredients</span></p>
+            <ul id="chip-list" class="chip-list" aria-label="Your ingredients"></ul>
+            <p id="chip-empty" class="empty hidden">Nothing here yet. Add an ingredient below to get started.</p>
+
+            <form id="add-ingredient-form" class="add-row" autocomplete="off">
+              <label for="add-ingredient-input">Add an ingredient</label>
+              <div class="add-field">
+                <input id="add-ingredient-input" type="text" placeholder="e.g. garlic" maxlength="50" enterkeyhint="done" />
+                <button type="submit" class="btn"><svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg>Add</button>
+              </div>
+            </form>
+
+            <div class="pantry">
+              <span class="muted">Often on hand</span>
+              <div id="pantry-list" class="pantry-list"></div>
+            </div>
+
+            <button id="btn-generate" class="btn primary lg" type="button">
+              <svg class="icon" aria-hidden="true"><use href="#i-chef" /></svg>Find recipes
+            </button>
           </div>
         </div>
       </section>
 
-      <section id="state-recipes" class="state hidden">
-        <div class="recipes-header">
-          <h2>Three ideas for you</h2>
-          <div class="recipes-actions">
-            <button id="btn-edit-ingredients" type="button">Edit ingredients</button>
-            <button id="btn-regenerate" type="button" class="primary">Generate again</button>
+      <!-- STEP 3: RECIPES -->
+      <section id="state-recipes" class="state hidden" aria-labelledby="h-rec">
+        <div class="rec-head">
+          <div>
+            <h2 id="h-rec" tabindex="-1">Three ideas for tonight</h2>
+            <p id="rec-sub" class="muted"></p>
+          </div>
+          <div class="rec-actions">
+            <button id="btn-edit-ingredients" class="btn" type="button"><svg class="icon" aria-hidden="true"><use href="#i-back" /></svg>Edit ingredients</button>
+            <button id="btn-regenerate" class="btn primary" type="button"><svg class="icon" aria-hidden="true"><use href="#i-refresh" /></svg>Generate again</button>
+            <button id="btn-print" class="btn ghost" type="button"><svg class="icon" aria-hidden="true"><use href="#i-print" /></svg>Print</button>
           </div>
         </div>
-        <div id="recipe-grid" class="recipe-grid"></div>
+        <div class="filters" role="group" aria-label="Filter recipes">
+          <button class="toggle" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="toggle" type="button" data-filter="easy" aria-pressed="false">Easy</button>
+          <button class="toggle" type="button" data-filter="quick" aria-pressed="false">30 min or less</button>
+        </div>
+        <div id="recipe-grid" class="recipe-grid" aria-busy="false"></div>
+        <p id="recipe-empty" class="empty hidden">No recipes match that filter. <button id="clear-filter" class="link-btn" type="button">Show all</button></p>
       </section>
     </main>
 
+    <footer class="foot">
+      <p>Recipes are AI-generated suggestions. Check ingredients for allergens and cook food thoroughly.</p>
+      <p><a href="https://github.com/ShreyasK06/FridgeChef">Source on GitHub</a></p>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <noscript><p class="error-bar">FridgeChef needs JavaScript to analyse your photo.</p></noscript>
     <script src="demo.js"></script>
     <script src="app.js" defer></script>
   </body>

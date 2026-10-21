@@ -6,6 +6,7 @@
     location.hostname.endsWith("github.io") ||
     new URLSearchParams(location.search).has("demo");
   if (!isDemo) return;
+  window.__FRIDGECHEF_DEMO__ = true; // app.js reads this to offer the sample-fridge button
 
   const SAMPLE_FRIDGE = ["eggs", "spinach", "cheddar cheese", "tomatoes", "milk", "onion", "butter", "bell pepper"];
 
