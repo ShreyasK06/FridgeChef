@@ -4,6 +4,8 @@ Take a photo of your fridge. Get three recipes back.
 
 FridgeChef sends the photo to Google Cloud Vision for ingredient detection, lets you edit the result as chips, then asks Gemini 2.5 Flash for three complete recipes with ingredients, timings, and steps.
 
+![FridgeChef web frontend: drop a photo of your fridge to start](docs/images/upload.png)
+
 ## Requirements
 
 - Python 3.11+
