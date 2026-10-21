@@ -1,6 +1,6 @@
 // Static demo mode for hosting on GitHub Pages, where there is no backend.
 // Active on *.github.io or with ?demo=1. It answers /api/detect and /api/recipes
-// from a small built-in recipe set; no Vision or Gemini calls are made.
+// from a small built-in recipe set; no backend calls are made.
 (function () {
   const isDemo =
     location.hostname.endsWith("github.io") ||
@@ -154,7 +154,7 @@
     bar.className = "demo-banner";
     bar.textContent =
       "Demo mode: any photo returns a sample ingredient list, and recipes come from a small built-in set. " +
-      "The full app uses Google Cloud Vision and Gemini (see the repo to run it).";
+      "See the repo to run the full app.";
     document.body.insertBefore(bar, document.body.firstChild);
   });
 })();
