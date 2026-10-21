@@ -21,6 +21,15 @@ body {
   line-height: 1.5;
 }
 
+.demo-banner {
+  background: #fff7e0;
+  border-bottom: 1px solid #ecd9a0;
+  color: #5c4a10;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
 header {
   text-align: center;
   padding: 2.5rem 1rem 1.5rem;

@@ -6,6 +6,10 @@ FridgeChef sends the photo to Google Cloud Vision for ingredient detection, lets
 
 ![FridgeChef web frontend: drop a photo of your fridge to start](docs/images/upload.png)
 
+## Live demo
+
+**[Try the demo](https://shreyask06.github.io/FridgeChef/)** on GitHub Pages. Pages has no backend, so the demo runs in a sample-data mode (`frontend/demo.js`): any photo returns a sample ingredient list, and the recipes are picked from a small built-in set by ingredient overlap. It shows the full flow (upload, edit ingredient chips, get three recipes, generate again) without calling Vision or Gemini. Run the app locally, as below, for real detection and generation. Append `?demo=1` to a local URL to try the demo mode there.
+
 ## Requirements
 
 - Python 3.11+
